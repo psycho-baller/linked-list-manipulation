@@ -60,16 +60,6 @@ class TangledList {
             // 11. Set its next value to null to remove the subsequent nodes from this list.
             node1.setNext(null);
         }
-//        while (node0 != null && node1 != null) {
-//            if (node0.getValue().equals(node1.getValue())) {
-//                node1 = originalNode1;
-//                break;
-//            } else {
-//                node0 = node0.getNext();
-//                node1 = node1.getNext();
-//                steps++;
-//            }
-//        }
     }
 
     /**
@@ -80,56 +70,78 @@ class TangledList {
      * @return
      */
     public static int detectCycleAndPeriod(MyLinkedList<String> list0) {
-        /*
-        pseudocode:
-1. Initialize the tortoise and hare to the head node
-2. Advance the tortoise 1 node, and the hare two nodes and check if they are equal
-(occupying the same node).
-3. Repeat this process until the end of the list is reached (no loop) or the two nodes
-are equal.
-4. If the hare and tortoise meet then that means there is a cycle, and we should
-identify the period.
-5. If there is no cycle then return –1 for the period.
-6. To identify the period,
-    (a) Let the hare continue traversing the list (one node at a time this time) until
-    it returns to the tortoise’s position.
-    b) Count the number of steps that this takes.
-    (c) The count is the period
-    (d) Return it.
-         */
+        // 1. Initialize the tortoise and hare to the head node
         MyLinkedListNode<String> tortoise = list0.getHeadNode();
         MyLinkedListNode<String> hare = list0.getHeadNode();
-        int period = 0;
+
         while (tortoise != null && hare != null) {
+            // 2. Advance the tortoise 1 node, and the hare two nodes
+            // 3. repeat this process until the end of the list is reached (no loop) or the two nodes are equal
             tortoise = tortoise.getNext();
             hare = hare.getNext();
             if (hare != null) {
                 hare = hare.getNext();
             }
-            if (tortoise == hare) {
-                MyLinkedListNode<String> temp = list0.getHeadNode();
-                while (temp != tortoise) {
-                    temp = temp.getNext();
-                    tortoise = tortoise.getNext();
-                }
-                period = 0;
-                while (temp != hare) {
-                    temp = temp.getNext();
+            if (tortoise == hare) { // 2. and check if they are equal (occupying the same node)
+                // 4. If the hare and tortoise meet then that means there is a cycle, and we should identify the period.
+
+                // 6. To identify the period:
+                hare = hare.getNext(); // advance the hare one node
+                int period = 1; // set the period to 1 since we have already advanced the hare once
+                while(hare != tortoise) {
+                    //(a) Let the hare continue traversing the list (one node at a time this time) until
+                    //it returns to the tortoise’s position.
                     hare = hare.getNext();
-                    period++;
+                    period++; //b) Count the number of steps that this takes.
                 }
+                //(c) The count is the period
+                //(d) Return it.
                 return period;
             }
         }
-        return period;
+        // 5. If there is no cycle then return –1 for the period.
+        return -1;
     }
 
+    /**
+     * Precondition: list0 is a linked list with a cycle, period is the number of nodes in the cycle
+     * Postcondition: list0 does not have a cycle, the order of the nodes in the list is unchanged
+     * (except for the removal of repeated nodes in the order), the number of the nodes in
+     * the list is unchanged
+     * @param list0 the linked list to remove the cycle
+     * @param period the number of nodes in the cycle (from the previous method)
+     */
     public static void removeCycle(MyLinkedList<String> list0, int period) {
-        // Write some assignemnt code here!
+        // 1. Initialize the tortoise and hare to the head node
+        MyLinkedListNode<String> tortoise = list0.getHeadNode();
+        MyLinkedListNode<String> hare = list0.getHeadNode();
+
+        // 2. Advance the hare “period” nodes into the list.
+        for (int i = 0; i < period; i++) {
+            hare = hare.getNext();
+        }
+        // 3. Advance the hare and the tortoise at the same rate, checking for equality as you go
+        while (tortoise != null && hare != null) {
+            if (tortoise == hare) {
+                // 4. The tortoise and hare meet at the first node in the cycle.
+                // 5. Advance the hare period-1 nodes, this is the last node in the cycle.
+                for(int i = 0; i < period - 1; i++) {
+                    hare = hare.getNext();
+                }
+                // 6. Set the last node in the cycle’s next value to be null.
+                hare.setNext(null);
+                return;
+            } else {
+                tortoise = tortoise.getNext();
+                hare = hare.getNext();
+            }
+        }
     }
     public static void removeLinkedListCycles(MyLinkedList<String> list0) {
         int period = detectCycleAndPeriod(list0);
-        removeCycle(list0, period);
+        if (period != -1) {
+            removeCycle(list0, period);
+        }
     }
 
     // Code to setup one test case for eliminating shared nodes from two linked lists
@@ -153,7 +165,7 @@ identify the period.
 
             System.out.println("Shared Nodes: Stage 0 Lineup");
             System.out.println(stage0.toString());
-            System.out.println("Shared Nodes: Stage 0 Lineup");
+            System.out.println("Shared Nodes: Stage 1 Lineup");
             System.out.println(stage1.toString());
             System.out.println("\n");
 
@@ -161,7 +173,7 @@ identify the period.
 
             System.out.println("Shared Nodes Fixed: Stage 0 Lineup");
             System.out.println(stage0.toString());
-            System.out.println("Shared Nodes Fixed: Stage 0 Lineup");
+            System.out.println("Shared Nodes Fixed: Stage 1 Lineup");
             System.out.println(stage1.toString());
             System.out.println("\n");
 
