@@ -67,7 +67,7 @@ class TangledList {
      * Postcondition: If list0 contains a cycle, the period is returned. If list0 does not contain
      * a cycle, 0 is returned
      * @param list0 the linked list to check for a cycle
-     * @return
+     * @return the period of the cycle if there is one, 0 otherwise
      */
     public static int detectCycleAndPeriod(MyLinkedList<String> list0) {
         // 1. Initialize the tortoise and hare to the head node
@@ -79,8 +79,8 @@ class TangledList {
             // 3. repeat this process until the end of the list is reached (no loop) or the two nodes are equal
             tortoise = tortoise.getNext();
             hare = hare.getNext();
-            if (hare != null) {
-                hare = hare.getNext();
+            if (hare != null) { // if hare is not null, advance it again
+                hare = hare.getNext(); // advance the hare two nodes
             }
             if (tortoise == hare) { // 2. and check if they are equal (occupying the same node)
                 // 4. If the hare and tortoise meet then that means there is a cycle, and we should identify the period.
@@ -157,7 +157,7 @@ class TangledList {
 
             MyLinkedList<String> stage1 = new MyLinkedList<String>();
             stage1.appendToTail("Foo Fighters");
-            stage0.appendToTail("Gorillaz");
+            stage1.appendToTail("Gorillaz");
 
             MyLinkedListNode<String> node;
             node = stage0.searchByValue("Coldplay");
@@ -177,7 +177,11 @@ class TangledList {
             System.out.println(stage1.toString());
             System.out.println("\n");
 
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println('\n');
+            System.err.println("Exception: " + e. getMessage());
+        }
     }
 
     // Code to setup one test case for eliminating cycles from a linked list
@@ -194,14 +198,23 @@ class TangledList {
             stage0.appendToTail("Gorillaz");
 
             MyLinkedListNode<String> loopToNode;
-            loopToNode = stage0.searchByValue("Coldplay");
-
+            try {
+                loopToNode = stage0.searchByValue("Coldplay");
+            } catch (Exception e) {
+                System.err.println("Couldn't find coldplay in the stage0 list");
+                return;
+            }
             MyLinkedListNode<String> tail;
-            tail = stage0.searchByValue("Gorillaz");
-            if(tail != null)
+            try {
+                tail = stage0.searchByValue("Gorillaz");
+            } catch (Exception e) {
+                System.err.println("Couldn't find gorillaz in the stage0 list");
+                return;
+            }
+
+            if(tail != null) {
                 tail.setNext(loopToNode);
-
-
+            }
             System.out.println("Cyclic Nodes: Stage 0 Lineup");
             MyLinkedListNode<String> currentNode;
             currentNode = stage0.searchByValue("Arkells");
@@ -216,7 +229,22 @@ class TangledList {
 
             removeLinkedListCycles(stage0);
 
-        } catch (Exception e) {}
+            System.out.println("Cyclic Nodes Fixed: Stage 0 Lineup");
+            MyLinkedListNode<String> fixedCurrentNode;
+            fixedCurrentNode = stage0.searchByValue("Arkells");
+
+            // If we use the toString method it will never terminate.
+            // Most linked list operations on this list will not work, so be careful!
+            for(int i = 0; i<10 & fixedCurrentNode != null; i++) {
+                System.out.println("Element: " + fixedCurrentNode.toString());
+                fixedCurrentNode = fixedCurrentNode.getNext();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println('\n');
+            System.err.println("Exception: " + e. getMessage());
+        }
     }
 
     public static void main(String[] args) {
