@@ -2,6 +2,15 @@ package Assignment2;
 
 import Assignment2.MyLinkedListInterface.MyLinkedListNode;
 
+/**
+ * class containing a static method/algorithm to calculate the nth fibonacci number using a memoized recursive method
+ *
+ * @author Rami Maalouf
+ * @version 1.0
+ * @date 2022-05-19
+ * @TUT 05
+ * @course CPSC 331
+ */
 class TangledList {
 
     /**

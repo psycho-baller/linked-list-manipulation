@@ -1,7 +1,14 @@
 package Assignment2;
 
-// It is not necessary to modify this file for assignment2
-
+/**
+ * class containing a static method/algorithm to calculate the nth fibonacci number using a memoized recursive method
+ *
+ * @author Rami Maalouf
+ * @version 1.0
+ * @date 2022-05-19
+ * @TUT 05
+ * @course CPSC 331
+ */
 interface MyLinkedListInterface <ElementType> {
 
     public class LinkedListValueExistsException extends Exception {

@@ -1,6 +1,14 @@
 package Assignment2;
 
-
+/**
+ * class containing a static method/algorithm to calculate the nth fibonacci number using a memoized recursive method
+ *
+ * @author Rami Maalouf
+ * @version 1.0
+ * @date 2022-05-19
+ * @TUT 05
+ * @course CPSC 331
+ */
 public class MyLinkedList<ElementType> implements MyLinkedListInterface<ElementType> {
     
     private MyLinkedListNode<ElementType> head;
