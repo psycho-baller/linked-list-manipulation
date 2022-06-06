@@ -44,7 +44,7 @@ class TangledList {
         // 6. Advance both nodes along the lists checking equality as you go. The nodes will be equal at the first shared node between the lists.
         int steps = 0; // 8. keep track of the number of steps it takes to reach the shared node
 
-        while (node0 != null && node1 != null && !(node0.getValue().equals(node1.getValue()))) {
+        while (node0 != null && node1 != null && (node0 != node1)) {
             steps++;
             node0 = node0.getNext();
             node1 = node1.getNext();
@@ -180,7 +180,7 @@ class TangledList {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println('\n');
-            System.err.println("Exception: " + e. getMessage());
+            System.err.println("Exception: " + e.getMessage());
         }
     }
 
@@ -243,7 +243,7 @@ class TangledList {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println('\n');
-            System.err.println("Exception: " + e. getMessage());
+            System.err.println("Exception: " + e.getMessage());
         }
     }
 

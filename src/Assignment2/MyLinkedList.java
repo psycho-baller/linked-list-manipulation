@@ -18,7 +18,6 @@ public class MyLinkedList<ElementType> implements MyLinkedListInterface<ElementT
      */
     public MyLinkedListNode<ElementType> getHeadNode() {
         return this.head;
-//        return null;
     }
 
     /**
